@@ -1,0 +1,376 @@
+﻿@{
+    @model ComunidadDePracticaMVC.Models.FormularioNotaModel
+
+}
+
+
+
+<html>
+<head>
+    <script>
+        var numeroNotasGenerales = 0;
+        function añadirNota() {
+            if (numeroNotasGenerales < 29) {
+
+                numeroNotasGenerales += 1;
+                var nota = document.getElementById("nota" + numeroNotasGenerales);
+                var input = document.getElementById("textBoxNota" + numeroNotasGenerales);
+                nota.style = "display: block;";
+                input.disabled = false;
+            }
+        }
+
+        function quitarNota() {
+            if (numeroNotasGenerales > 0 ) {
+
+                
+                var nota = document.getElementById("nota" + numeroNotasGenerales);
+                var input = document.getElementById("textBoxNota" + numeroNotasGenerales);
+                input.value = "";
+                nota.style = "display: none";
+                input.disabled = true;
+                numeroNotasGenerales -= 1;
+            }
+        }
+
+        function mostarModal() {
+            var modal = document.getElementById("modal");
+            modal.style = "display: block;";
+        }
+
+        function quitarModal() {
+            var modal = document.getElementById("modal");
+            modal.style = "display: none;";
+            while (numeroNotasGenerales > 0) {
+                quitarNota();
+            }
+            document.getElementById("form").reset()
+        }
+    </script>
+
+</head>
+
+
+<body>
+    <div class="row">
+        <h2>@ViewBag.Title </h2>
+        <h4>Presione el boton para abrir un nuevo formulario de calificación.</h4>
+        <hr />
+        <button type="button" class="btn box-btn" onclick="mostarModal()"><i class="fa fa-plus"></i> Calcular nuevo promedio</button>
+    </div>
+
+    @if (ViewBag.Desglose != null) {
+        <br />
+        <div class="shadow contenedor-blanco">
+            <h4>Resultados de calificación: <strong>@ViewBag.Desglose.NotaFinal% Nota Final</strong></h4>
+            <hr />
+            <div>
+                <div class="col-md-12"></div>
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.NotasGenericas) 
+
+                    <hr style="margin-top:0px;" />
+
+                    @{
+                        for (int i = 0; i < ViewBag.Desglose.CantidadNotasGenericas; i++)
+                        {
+                            string nombreNotaGeneral = "Nota #" + (i + 1) + ": ";
+                            string id = "nota" + i;
+
+                            <div class="row">
+                                <div class="offset col-md-3">  @nombreNotaGeneral  </div>
+                                <div class="col-md-3">
+                                    @ViewBag.Desglose.NotasIndividuales.NotasGenericas[i].Valor
+                                </div>
+                            </div>
+                        }
+                        <div class="row">
+                            <div class="offset col-md-3"> <hr />  </div>
+                        </div>
+                        <div class="row">
+                            <div class="offset col-md-3">  Porcentaje:  </div>
+                            <div class="col-md-3">
+                                @ViewBag.Desglose.PorcentajeNotasGenericas%
+                            </div>
+                        </div>
+
+                    }
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Foros)
+                    <hr style="margin-top:0px;" />
+                    <div class="row">
+                        <div class="offset col-md-3">  Nota en foros:  </div>
+                        <div class="col-md-3">
+                            @ViewBag.Desglose.NotasIndividuales.Foros
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="offset col-md-3"> <hr />  </div>
+                    </div>
+                    <div class="row">
+                        <div class="offset col-md-3">  Porcentaje:  </div>
+                        <div class="col-md-3">
+                            @ViewBag.Desglose.PorcentajeForos%
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Examenes)
+                    <hr style="margin-top:0px;" />
+                    @{
+                        for (int i = 0; i < 2; i++)
+                        {
+                            string nombreExamen = "Examen #" + (i + 1) + ": ";
+                            <div class="row">
+                                <div class="offset col-md-3">  @nombreExamen </div>
+                                <div class="col-md-3">
+                                    @ViewBag.Desglose.NotasIndividuales.Examenes[i].Valor
+                                </div>
+                            </div>
+                        }
+
+                    }
+                    <div class="row">
+                        <div class="offset col-md-3"> <hr />  </div>
+                    </div>
+                    <div class="row">
+                        <div class="offset col-md-3">  Porcentaje:  </div>
+                        <div class="col-md-3">
+                            @ViewBag.Desglose.PorcentajeExamenes%
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Labs)
+                    <hr style="margin-top:0px;" />
+                    @{
+                        for (int i = 0; i < 10; ++i)
+                        {
+
+                            string nombreLab = "Lab #" + (i + 1) + ": ";
+                            <div class="row">
+                                <div class="offset col-md-3">  @nombreLab </div>
+                                <div class="col-md-3">
+                                    @ViewBag.Desglose.NotasIndividuales.Labs[i].Valor
+                                </div>
+                            </div>
+                        }
+                    }
+                    <div class="row">
+                        <div class="offset col-md-3"> <hr />  </div>
+                    </div>
+                    <div class="row">
+                        <div class="offset col-md-3">  Porcentaje:  </div>
+                        <div class="col-md-3">
+                            @ViewBag.Desglose.PorcentajeLabs%
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Investigacion)
+                    <hr style="margin-top:0px;" />
+                    @{
+                        string[] nombreInvestigacion = new string[4];
+                        nombreInvestigacion[0] = "1. Planificación: ";
+                        nombreInvestigacion[1] = "2. Investigación: ";
+                        nombreInvestigacion[2] = "3. Presentación: ";
+                        nombreInvestigacion[3] = "4. Video: ";
+
+                        for (int i = 0; i < 4; ++i)
+                        {
+                            <div class="row">
+                                <div class="offset col-md-3">  @nombreInvestigacion[i] </div>
+                                <div class="col-md-3">
+                                    @ViewBag.Desglose.NotasIndividuales.Investigacion[i].Valor
+                                </div>
+                            </div>
+                        }
+                    }
+                    <div class="row">
+                        <div class="offset col-md-3"> <hr />  </div>
+                    </div>
+                    <div class="row">
+                        <div class="offset col-md-3">  Porcentaje:  </div>
+                        <div class="col-md-3">
+                            @ViewBag.Desglose.PorcentajeInvestigacion%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+    
+    
+    
+    }
+
+
+    <div id="modal" class="row modal">
+        <div class="box-container">
+            <div class="box-header row">
+                <div class="col-md-5 box-header-title">Formulario de calificación</div>
+                <span id="close" class="close box-header-links" onclick="quitarModal()">&times;</span>
+            </div>
+            <div class="box-content shadow">
+                <div id="formulario" class="col-md-12" style="display:block">
+                    @using (Html.BeginForm("CalcularNota", "CalcularNota", FormMethod.Post, new { enctype = "multipart/form-data", @id = "form"}))
+                    {
+                        <div class="row">
+                            <div class="col-md-12" style="margin-bottom: 20px;">
+                                Ingrese valores enteros del 1 al 100.
+                                
+                            </div>
+                           
+                        </div>
+                        @Html.AntiForgeryToken()
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.NotasGenericas)
+
+                                    <hr style="margin-top:0px;" />
+
+                                    <div id="nota0" class="row">
+                                        <div class="offset col-md-3">  Nota #1:   </div>
+                                        <div class="col-md-3">
+                                            @Html.TextBoxFor(model => model.NotasGenericas[0].Valor, "--", new { @class = "form-control box-input", @type = "Number", @id = "textBoxNota0", @placeholder = "Nota", pattern = "[0-9]" })
+                                            @Html.ValidationMessageFor(model => model.NotasGenericas[0].Valor, "", new { @class = "text-danger", @id = "validationNota0" })
+                                        </div>
+                                    </div>
+
+                                    @{
+                                        for (int i = 1; i <= 31; i++)
+                                        {
+                                            string nombreNotaGeneral = "Nota #" + (i + 1) + ": ";
+                                            string id = "nota" + i;
+
+                                            <div id="@id" class="row" style="display: none;">
+                                                <div class="offset col-md-3">  @nombreNotaGeneral  </div>
+                                                <div class="col-md-3">
+                                                    @Html.TextBoxFor(model => model.NotasGenericas[i].Valor, "--", new { @class = "form-control box-input", @type = "Number", @id = "textBoxNota" + i, @placeholder = "Nota", @disabled = true, pattern = "[0-9]" })
+                                                    @Html.ValidationMessageFor(model => model.NotasGenericas[i].Valor, "", new { @class = "text-danger", @id = "validationNota" + i })
+                                                </div>
+                                            </div>
+                                        }
+
+                                    }
+
+                                    <div class="row" style="padding-top: 10px;">
+                                        <div class="col-md-12">
+                                            <button type="button" class="btn box-btn" onclick="añadirNota()"><i class="fa fa-plus"></i> Añadir nota</button>
+                                            <button type="button" class="btn box-btn" onclick="quitarNota()"><i class="fa fa-minus"></i> Quitar nota</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Foros)
+                                    <hr style="margin-top:0px;" />
+                                    <div class="row">
+                                        <div class="offset col-md-3">  Nota en foros:  </div>
+                                        <div class="col-md-3">
+                                            @Html.TextBoxFor(model => model.Foros, "--", new { @class = "form-control box-input", @type = "Number", @placeholder = "Nota", @pattern = "[0-9]" })
+                                            @Html.ValidationMessageFor(model => model.Foros, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Examenes)
+                                    <hr style="margin-top:0px;" />
+                                    @{
+                                        for (int i = 0; i < 2; i++)
+                                        {
+                                            string nombreExamen = "Examen #" + (i + 1) + ": ";
+                                            <div class="row">
+                                                <div class="offset col-md-3">  @nombreExamen </div>
+                                                <div class="col-md-3">
+                                                    @Html.TextBoxFor(model => model.Examenes[i].Valor, "--", new { @class = "form-control box-input", @type = "Number", @placeholder = "Nota", @pattern = "[0-9]" })
+                                                    @Html.ValidationMessageFor(model => model.Examenes[i].Valor, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        }
+
+                                    }
+
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Labs)
+                                    <hr style="margin-top:0px;" />
+                                    @{
+                                        for (int i = 0; i < 10; ++i)
+                                        {
+
+                                            string nombreLab = "Lab #" + (i + 1) + ": ";
+                                            <div class="row">
+                                                <div class="offset col-md-3">  @nombreLab </div>
+                                                <div class="col-md-3">
+                                                    @Html.TextBoxFor(model => model.Labs[i].Valor, "--", new { @class = "form-control box-input", @type = "Number", @placeholder = "Nota", @pattern = "[0-9]" })
+                                                    @Html.ValidationMessageFor(model => model.Labs[i].Valor, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Investigacion)
+                                    <hr style="margin-top:0px;" />
+                                    @{
+                                        string[] nombreInvestigacion = new string[4];
+                                        nombreInvestigacion[0] = "1. Planificación: ";
+                                        nombreInvestigacion[1] = "2. Investigación: ";
+                                        nombreInvestigacion[2] = "3. Presentación: ";
+                                        nombreInvestigacion[3] = "4. Video: ";
+
+                                        for (int i = 0; i < 4; ++i)
+                                        {
+                                            <div class="row">
+                                                <div class="offset col-md-3">  @nombreInvestigacion[i] </div>
+                                                <div class="col-md-3">
+                                                    @Html.TextBoxFor(model => model.Investigacion[i].Valor, "--", new { @class = "form-control box-input", @type = "Number", @placeholder = "Nota", @pattern = "[0-9]" })
+                                                    @Html.ValidationMessageFor(model => model.Investigacion[i].Valor, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+
+
+                                </div>
+                                <br />
+
+                                <button type="submit" class="btn box-btn" onsubmit="return false"><i class="fa fa-paper-plane"></i> Calcular </button>
+                                <button type="button" class="btn box-btn" onclick="quitarModal()"><i class="fa fa-paper-plane"></i> Cancelar </button>
+
+                            </div>
+                        </div>
+                        <br />
+
+
+                    }
+                    
+
+                </div>
+            </div>
+            
+        </div>
+        
+        
+    </div>
+    
+
+
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+</body>
+</html>

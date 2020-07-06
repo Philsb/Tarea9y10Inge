@@ -1,0 +1,50 @@
+﻿body {
+    background-color: #f8f9fc;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.my-body-content {
+    margin-top: 20px;
+}
+
+
+
+.my-row {
+    display: flex;
+    padding: 0px;
+}
+
+.my-col {
+    height: 90vh;
+}
+
+
+/* STYLES for articulos*/
+
+.articulo-element {
+    padding: 20px;
+    padding-left: 30px;
+    border-radius: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: white;
+}
+
+.shadow {
+    box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15) !important;
+}
+
+.main-font {
+    font-family: 'Nunito', sans-serif;
+    line-height: 1.2;
+}
+
+
+.page-title {
+    margin-top:15px;
+}
+
+.offset {
+    margin-left: 3.333333%;
+}
+
